@@ -9,10 +9,13 @@ class TestAddContact(unittest.TestCase):
         self.wd = WebDriver()
         self.wd.implicitly_wait(30)
 
-    def open_home_page(self, wd):
+    def open_home_page(self):
+        wd = self.wd
         wd.get("https://localhost/addressbook/#")
 
-    def login(self, wd, username, password):
+    def login(self, username, password):
+        wd = self.wd
+        self.open_home_page()
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys(username)
@@ -21,7 +24,8 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("pass").send_keys(password)
         wd.find_element_by_xpath("//input[@value='Login']").click()
 
-    def add_new_contact(self, wd, contact):
+    def add_new_contact(self,  contact):
+        wd = self.wd
         wd.find_element_by_link_text("add new").click()
         wd.get("https://localhost/addressbook/edit.php")
         wd.find_element_by_name("firstname").click()
@@ -84,22 +88,22 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("ayear").clear()
         wd.find_element_by_name("ayear").send_keys(contact.ayear)
         wd.find_element_by_name("submit").click()
+        self.return_at_home_page()
 
-    def return_at_home_page(self, wd):
+    def return_at_home_page(self):
+        wd = self.wd
         wd.find_element_by_link_text("home").click()
 
-    def logout(self, wd):
+    def logout(self):
+        wd = self.wd
         wd.find_element_by_link_text("Logout").click()
     
     def test_add_contact(self):
-        wd = self.wd
-        self.open_home_page(wd)
-        self.login(wd, username="admin", password="secret")
-        self.add_new_contact(wd, Contact(firstname="First_name", middlename="Middle_name", lastname="Last_name", nickname="Nickname", title="Title", company="Company", address="Address",
+        self.login(username="admin", password="secret")
+        self.add_new_contact(Contact(firstname="First_name", middlename="Middle_name", lastname="Last_name", nickname="Nickname", title="Title", company="Company", address="Address",
                              home="Telephone_home", mobile="Telephone_mobile", work="Telephone_work", fax="Telephone_fax", email="email",
                              email2="email_2", email3="email_3", homepage="homepage", bday='1', bmonth='January', byear='2000', aday='2', amonth='February', ayear='2010'))
-        self.return_at_home_page(wd)
-        self.logout(wd)
+        self.logout()
 
     def tearDown(self):
         self.wd.quit()
