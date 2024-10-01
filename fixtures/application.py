@@ -3,7 +3,6 @@ from fixtures.session import SessionHelper
 from fixtures.group import GroupHelper
 from fixtures.contact import ContactHelper
 
-# фикстура для теста добавления группы:
 class Application():
 
     def __init__(self):
