@@ -1,6 +1,7 @@
 from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium.webdriver.support.ui import Select
 
+# фикстура для теста добавления контакта:
 class ApplicationContact:
 
     def __init__(self):
