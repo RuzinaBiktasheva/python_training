@@ -1,3 +1,4 @@
+# класс помощник
 class GroupHelper():
 
     def __init__(self, app):

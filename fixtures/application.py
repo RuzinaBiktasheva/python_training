@@ -3,6 +3,7 @@ from fixtures.session import SessionHelper
 from fixtures.group import GroupHelper
 from fixtures.contact import ContactHelper
 
+# класс менеджер:
 class Application():
 
     def __init__(self):
