@@ -6,7 +6,7 @@ class ContactHelper():
     def __init__(self, app):
         self.app = app
 
-    def add_new_contact(self, contact):
+    def create(self, contact):
         wd = self.app.wd
         wd.find_element_by_link_text("add new").click()
         wd.get("https://localhost/addressbook/edit.php")
