@@ -14,14 +14,18 @@ class GroupHelper():
         else:
             pass
 
+    def filling_fields(self, group):
+        wd = self.app.wd
+        self.type("group_name", group.name)
+        self.type("group_header", group.header)
+        self.type("group_footer", group.footer)
+
     def create(self, group):
         wd = self.app.wd
         wd.find_element_by_link_text("groups").click()
         wd.get("https://localhost/addressbook/group.php")
         wd.find_element_by_name("new").click()
-        self.type("group_name", group.name)
-        self.type("group_header", group.header)
-        self.type("group_footer", group.footer)
+        self.filling_fields(group)
         wd.find_element_by_name("submit").click()
         self.return_at_home_page()
 
@@ -31,9 +35,7 @@ class GroupHelper():
         wd.get("https://localhost/addressbook/group.php")
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_css_selector('input[name="edit"]').click()
-        self.type("group_name", group.name)
-        self.type("group_header", group.header)
-        self.type("group_footer", group.footer)
+        self.filling_fields(group)
         wd.find_element_by_name("update").click()
         self.return_at_home_page()
 
