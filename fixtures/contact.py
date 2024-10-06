@@ -69,25 +69,21 @@ class ContactHelper():
         wd.find_element_by_name("ayear").clear()
         wd.find_element_by_name("ayear").send_keys(contact.ayear)
 
-    def create(self):
+    def create(self, contact):
         wd = self.app.wd
         wd.find_element_by_link_text("add new").click()
         wd.get("https://localhost/addressbook/edit.php")
-        self.filling_fields(Contact(firstname="First_name", middlename="Middle_name", lastname="Last_name", nickname="Nickname", title="Title", company="Company", address="Address",
-                               home="Telephone_home", mobile="Telephone_mobile", work="Telephone_work", fax="Telephone_fax", email="email",
-                               email2="email_2", email3="email_3", homepage="homepage", bday='1', bmonth='January', byear='2000', aday='2', amonth='February', ayear='2010'))
+        self.filling_fields(contact)
         wd.find_element_by_name("submit").click()
         self.return_at_home_page()
 
-    def modification(self):
+    def modification(self, contact):
         wd = self.app.wd
         wd.find_element_by_link_text("home").click()
         wd.get("https://localhost/addressbook/#")
         wd.find_element_by_css_selector('img[src="icons/status_online.png"]').click()
         wd.find_element_by_css_selector('input[name="modifiy"]').click()
-        self.filling_fields(Contact(firstname="New_first_name", middlename="New_middle_name", lastname="New_last_name", nickname="New_nickname", title="New_title", company="New_company", address="New_address",
-                               home="New_telephone_home", mobile="New_telephone_mobile", work="New_telephone_work", fax="New_telephone_fax", email="New_email",
-                               email2="New_email_2", email3="New_email_3", homepage="New_homepage", bday='2', bmonth='February', byear='2001', aday='3', amonth='March', ayear='2011'))
+        self.filling_fields(contact)
         wd.find_element_by_name("update").click()
         self.return_at_home_page()
 
