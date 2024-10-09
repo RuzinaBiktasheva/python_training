@@ -26,6 +26,11 @@ class ContactHelper():
         else:
             pass
 
+    def open_contact_page(self):
+        wd = self.app.wd
+        wd.find_element_by_link_text("home").click()
+        wd.get("https://localhost/addressbook/#")
+
     def filling_fields(self, contact):
         wd = self.app.wd
         self.type("firstname", contact.firstname)
@@ -60,8 +65,7 @@ class ContactHelper():
 
     def modification(self, contact):
         wd = self.app.wd
-        wd.find_element_by_link_text("home").click()
-        wd.get("https://localhost/addressbook/#")
+        self.open_contact_page()
         wd.find_element_by_css_selector('img[src="icons/status_online.png"]').click()
         wd.find_element_by_css_selector('input[name="modifiy"]').click()
         self.filling_fields(contact)
@@ -70,8 +74,7 @@ class ContactHelper():
 
     def delete(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("home").click()
-        wd.get("https://localhost/addressbook/#")
+        self.open_contact_page()
         wd.find_element_by_css_selector('img[src="icons/status_online.png"]').click()
         wd.find_element_by_css_selector('input[name="modifiy"]').click()
         wd.find_element_by_css_selector('input[value="Delete"]').click()
@@ -80,3 +83,8 @@ class ContactHelper():
     def return_at_home_page(self):
         wd = self.app.wd
         wd.find_element_by_link_text("home").click()
+
+    def count(self):
+        wd = self.app.wd
+        self.open_contact_page()
+        return len(wd.find_elements_by_css_selector('img[src="icons/status_online.png"]'))

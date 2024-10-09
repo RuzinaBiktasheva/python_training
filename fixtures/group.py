@@ -20,10 +20,14 @@ class GroupHelper():
         self.type("group_header", group.header)
         self.type("group_footer", group.footer)
 
-    def create(self, group):
+    def open_group_page(self):
         wd = self.app.wd
         wd.find_element_by_link_text("groups").click()
         wd.get("https://localhost/addressbook/group.php")
+
+    def create(self, group):
+        wd = self.app.wd
+        self.open_group_page()
         wd.find_element_by_name("new").click()
         self.filling_fields(group)
         wd.find_element_by_name("submit").click()
@@ -31,8 +35,7 @@ class GroupHelper():
 
     def modification(self, group):
         wd = self.app.wd
-        wd.find_element_by_link_text("groups").click()
-        wd.get("https://localhost/addressbook/group.php")
+        self.open_group_page()
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_css_selector('input[name="edit"]').click()
         self.filling_fields(group)
@@ -41,8 +44,7 @@ class GroupHelper():
 
     def delete(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("groups").click()
-        wd.get("https://localhost/addressbook/group.php")
+        self.open_group_page()
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_css_selector('input[name="delete"]').click()
         self.return_at_home_page()
@@ -50,3 +52,8 @@ class GroupHelper():
     def return_at_home_page(self):
         wd = self.app.wd
         wd.find_element_by_link_text("home").click()
+
+    def count(self):
+        wd = self.app.wd
+        self.open_group_page()
+        return len(wd.find_elements_by_name("selected[]"))
