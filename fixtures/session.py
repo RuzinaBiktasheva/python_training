@@ -19,3 +19,29 @@ class SessionHelper():
         wd = self.app.wd
         wd.find_element_by_link_text("Logout").click()
         wd.get("https://localhost/addressbook/#")
+
+# проверка аунтификации:
+    def is_logged_in(self):
+        wd = self.app.wd
+        return len(wd.find_elements_by_css_selector('a[onclick="document.logout.submit();"]')) > 0
+
+# проверка, что аунтификация выполнена под нужным пользователем:
+    def is_logged_in_as(self, username):
+        wd = self.app.wd
+        return wd.find_element_by_xpath("//div/div[1]/form/b").text == "("+username+")"
+
+# проверка при выходе из системы:
+    def ensure_logout(self):
+        wd = self.app.wd
+        if self.is_logged_in():
+            self.logout()
+
+# проверка при аунтификации:
+    def ensure_login(self, username, password):
+        wd = self.app.wd
+        if self.is_logged_in():
+            if self.is_logged_in_as(username):
+                return
+            else:
+                self.logout()
+        self.login(username, password)
