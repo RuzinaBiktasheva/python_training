@@ -23,12 +23,12 @@ class SessionHelper():
 # проверка аунтификации:
     def is_logged_in(self):
         wd = self.app.wd
-        return len(wd.find_elements_by_css_selector('a[onclick="document.logout.submit();"]')) > 0
+        return len(wd.find_elements_by_link_text("Logout")) > 0
 
 # проверка, что аунтификация выполнена под нужным пользователем:
     def is_logged_in_as(self, username):
         wd = self.app.wd
-        return wd.find_element_by_xpath("//div/div[1]/form/b").text == "("+username+")"
+        return wd.find_element_by_xpath("//div/div[1]/form/b").text == f"({username})"
 
 # проверка при выходе из системы:
     def ensure_logout(self):
