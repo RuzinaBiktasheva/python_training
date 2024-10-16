@@ -39,6 +39,7 @@ class GroupHelper():
         self.filling_fields(group)
         wd.find_element_by_name("submit").click()
         self.return_at_home_page()
+        self.list_of_groups_cache = None
 
     # изменение группы
     def modification(self, group):
@@ -49,6 +50,7 @@ class GroupHelper():
         self.filling_fields(group)
         wd.find_element_by_name("update").click()
         self.return_at_home_page()
+        self.list_of_groups_cache = None
 
     # удаление группы
     def delete(self):
@@ -57,6 +59,7 @@ class GroupHelper():
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_css_selector('input[name="delete"]').click()
         self.return_at_home_page()
+        self.list_of_groups_cache = None
 
     # возврат на домашнюю страницу
     def return_at_home_page(self):
@@ -69,13 +72,17 @@ class GroupHelper():
         self.open_group_page()
         return len(wd.find_elements_by_name("selected[]"))
 
+    # кеш для группы
+    list_of_groups_cache = None
+
     # получение списка групп
     def get_group_list(self):
-        wd = self.app.wd
-        self.open_group_page()
-        list_of_groups = []
-        for element in wd.find_elements_by_css_selector("span.group"):
-            text = element.text
-            id = element.find_element_by_name("selected[]").get_attribute("value")
-            list_of_groups.append(Group(name=text, id=id))
-        return list_of_groups
+        if self.list_of_groups_cache is None:
+            wd = self.app.wd
+            self.open_group_page()
+            self.list_of_groups_cashe = []
+            for element in wd.find_elements_by_css_selector("span.group"):
+                text = element.text
+                id = element.find_element_by_name("selected[]").get_attribute("value")
+                self.list_of_groups_cashe.append(Group(name=text, id=id))
+        return list(self.list_of_groups_cashe)
