@@ -1,3 +1,5 @@
+from models.group import Group
+
 # класс помощник
 class GroupHelper():
 
@@ -14,12 +16,14 @@ class GroupHelper():
         else:
             pass
 
+    # заполнение полей
     def filling_fields(self, group):
         wd = self.app.wd
         self.type("group_name", group.name)
         self.type("group_header", group.header)
         self.type("group_footer", group.footer)
 
+    # открытие страницы групп
     def open_group_page(self):
         wd = self.app.wd
         if wd.current_url.endswith("/group.php") and len(wd.find_elements_by_name("new")) > 0:
@@ -27,6 +31,7 @@ class GroupHelper():
         wd.find_element_by_link_text("groups").click()
         wd.get("https://localhost/addressbook/group.php")
 
+    # создание новой группы
     def create(self, group):
         wd = self.app.wd
         self.open_group_page()
@@ -35,6 +40,7 @@ class GroupHelper():
         wd.find_element_by_name("submit").click()
         self.return_at_home_page()
 
+    # изменение группы
     def modification(self, group):
         wd = self.app.wd
         self.open_group_page()
@@ -44,6 +50,7 @@ class GroupHelper():
         wd.find_element_by_name("update").click()
         self.return_at_home_page()
 
+    # удаление группы
     def delete(self):
         wd = self.app.wd
         self.open_group_page()
@@ -51,11 +58,24 @@ class GroupHelper():
         wd.find_element_by_css_selector('input[name="delete"]').click()
         self.return_at_home_page()
 
+    # возврат на домашнюю страницу
     def return_at_home_page(self):
         wd = self.app.wd
         wd.find_element_by_link_text("home").click()
 
+    # подсчет количества групп
     def count(self):
         wd = self.app.wd
         self.open_group_page()
         return len(wd.find_elements_by_name("selected[]"))
+
+    # получение списка групп
+    def get_group_list(self):
+        wd = self.app.wd
+        self.open_group_page()
+        list_of_groups = []
+        for element in wd.find_elements_by_css_selector("span.group"):
+            text = element.text
+            id = element.find_element_by_name("selected[]").get_attribute("value")
+            list_of_groups.append(Group(name=text, id=id))
+        return list_of_groups

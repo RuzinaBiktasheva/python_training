@@ -26,12 +26,14 @@ class ContactHelper():
         else:
             pass
 
+    # открытие страницы контактов
     def open_contact_page(self):
         wd = self.app.wd
         if not(wd.current_url.endswith("/addressbook/") and len(wd.find_elements_by_css_selector('input[value="Send e-Mail"]')) > 0):
             wd.find_element_by_link_text("home").click()
             wd.get("https://localhost/addressbook/#")
 
+    # заполнение полей
     def filling_fields(self, contact):
         wd = self.app.wd
         self.type("firstname", contact.firstname)
@@ -56,6 +58,7 @@ class ContactHelper():
         self.type_list("amonth", contact.amonth)
         self.type("ayear", contact.ayear)
 
+    # создание контакта
     def create(self, contact):
         wd = self.app.wd
         wd.find_element_by_link_text("add new").click()
@@ -64,6 +67,7 @@ class ContactHelper():
         wd.find_element_by_name("submit").click()
         self.return_at_home_page()
 
+    # изменение контакта
     def modification(self, contact):
         wd = self.app.wd
         self.open_contact_page()
@@ -73,6 +77,7 @@ class ContactHelper():
         wd.find_element_by_name("update").click()
         self.return_at_home_page()
 
+    # удаление контакта
     def delete(self):
         wd = self.app.wd
         self.open_contact_page()
@@ -81,11 +86,25 @@ class ContactHelper():
         wd.find_element_by_css_selector('input[value="Delete"]').click()
         self.return_at_home_page()
 
+    # возврат на домашнюю страницу
     def return_at_home_page(self):
         wd = self.app.wd
         wd.find_element_by_link_text("home").click()
 
+    # подсчет количества контактов
     def count(self):
         wd = self.app.wd
         self.open_contact_page()
         return len(wd.find_elements_by_css_selector('img[src="icons/status_online.png"]'))
+
+    # получение списка контактов
+    def get_contact_list(self):
+        wd = self.app.wd
+        self.open_contact_page()
+        list_of_contacts = []
+        for element in wd.find_elements_by_css_selector('tr[name="entry"]'):
+            firstname = element.find_element_by_xpath('td[3]').text
+            middlename = element.find_element_by_xpath('td[2]').text
+            id =  element.find_element_by_name("selected[]").get_attribute("value")
+            list_of_contacts.append(Contact(firstname=firstname, middlename=middlename, id=id))
+        return list_of_contacts
