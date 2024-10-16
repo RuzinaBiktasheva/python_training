@@ -100,7 +100,6 @@ class ContactHelper():
         self.open_contact_page()
         return len(wd.find_elements_by_css_selector('img[src="icons/status_online.png"]'))
 
-    # кеш для контактов
     list_of_contacts_cache = None
 
     # получение списка контактов

@@ -72,7 +72,6 @@ class GroupHelper():
         self.open_group_page()
         return len(wd.find_elements_by_name("selected[]"))
 
-    # кеш для группы
     list_of_groups_cache = None
 
     # получение списка групп
