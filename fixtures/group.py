@@ -41,22 +41,30 @@ class GroupHelper():
         self.return_at_home_page()
         self.list_of_groups_cache = None
 
-    # изменение группы
-    def modification(self, group):
+    # изменение первой группы
+    def modification_first_group(self, group):
+        self.modification_randon_group(group, 0)
+
+    # изменение случайной группы
+    def modification_randon_group(self, group, index):
         wd = self.app.wd
         self.open_group_page()
-        wd.find_element_by_name("selected[]").click()
+        wd.find_elements_by_name("selected[]")[index].click()
         wd.find_element_by_css_selector('input[name="edit"]').click()
         self.filling_fields(group)
         wd.find_element_by_name("update").click()
         self.return_at_home_page()
         self.list_of_groups_cache = None
 
-    # удаление группы
-    def delete(self):
+    # удаление первой группы
+    def delete_first_group(self):
+        self.delete_random_group(0)
+
+    # удаление случайной группы
+    def delete_random_group(self, index):
         wd = self.app.wd
         self.open_group_page()
-        wd.find_element_by_name("selected[]").click()
+        wd.find_elements_by_name("selected[]")[index].click()
         wd.find_element_by_css_selector('input[name="delete"]').click()
         self.return_at_home_page()
         self.list_of_groups_cache = None

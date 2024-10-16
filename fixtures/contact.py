@@ -68,22 +68,30 @@ class ContactHelper():
         self.return_at_home_page()
         self.list_of_contacts_cache = None
 
-    # изменение контакта
-    def modification(self, contact):
+    # изменение первого контакта
+    def modification_first_contact(self):
+        self.modification_random_contact(0)
+
+    # изменение случайного контакта
+    def modification_random_contact(self, contact, index):
         wd = self.app.wd
         self.open_contact_page()
-        wd.find_element_by_css_selector('img[src="icons/status_online.png"]').click()
+        wd.find_elements_by_css_selector('img[src="icons/status_online.png"]')[index].click()
         wd.find_element_by_css_selector('input[name="modifiy"]').click()
         self.filling_fields(contact)
         wd.find_element_by_name("update").click()
         self.return_at_home_page()
         self.list_of_contacts_cache = None
 
-    # удаление контакта
-    def delete(self):
+    # удаление первого контакта
+    def delete_first_contact(self):
+        self.delete_random_contact(0)
+
+    # удаление случайного контакта
+    def delete_random_contact(self, index):
         wd = self.app.wd
         self.open_contact_page()
-        wd.find_element_by_css_selector('img[src="icons/status_online.png"]').click()
+        wd.find_elements_by_css_selector('img[src="icons/status_online.png"]')[index].click()
         wd.find_element_by_css_selector('input[name="modifiy"]').click()
         wd.find_element_by_css_selector('input[value="Delete"]').click()
         self.return_at_home_page()
