@@ -1,5 +1,6 @@
 from selenium.webdriver.support.ui import Select
 from models.contact import Contact
+import os
 
 # класс помощник
 class ContactHelper():
@@ -26,6 +27,12 @@ class ContactHelper():
         else:
             pass
 
+    def added_file(self):
+        wd = self.app.wd
+        current_dir = os.path.abspath(os.path.dirname(__file__))
+        file_path = os.path.join(current_dir, 'test.txt')
+        wd.find_element_by_css_selector('input[name="photo"]').send_keys(file_path)
+
     # открытие страницы контактов
     def open_contact_page(self):
         wd = self.app.wd
@@ -40,6 +47,7 @@ class ContactHelper():
         self.type("middlename", contact.middlename)
         self.type("lastname", contact.lastname)
         self.type("nickname", contact.nickname)
+        self.added_file()
         self.type("title", contact.title)
         self.type("company", contact.company)
         self.type("address", contact.address)
