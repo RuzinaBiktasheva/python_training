@@ -28,7 +28,12 @@ class SessionHelper():
 # проверка, что аунтификация выполнена под нужным пользователем:
     def is_logged_in_as(self, username):
         wd = self.app.wd
-        return wd.find_element_by_xpath("//div/div[1]/form/b").text == f"({username})"
+        return self.get_logged_user() == username
+
+# получение имени пользователя
+    def get_logged_user(self):
+        wd = self.app.wd
+        return wd.find_element_by_xpath("//div/div[1]/form/b").text[1:-1]
 
 # проверка при выходе из системы:
     def ensure_logout(self):
