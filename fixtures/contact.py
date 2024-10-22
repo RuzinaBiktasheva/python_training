@@ -125,8 +125,8 @@ class ContactHelper():
                 firstname = element.find_element_by_xpath('td[3]').text
                 lastname = element.find_element_by_xpath('td[2]').text
                 id =  element.find_element_by_name("selected[]").get_attribute("value")
-                all_phones = element.find_element_by_xpath('td[6]').text.splitlines()
-                self.list_of_contacts_cache.append(Contact(firstname=firstname, lastname=lastname, id=id, home=all_phones[0], mobile=all_phones[1], work=all_phones[2]))
+                all_phones = element.find_element_by_xpath('td[6]').text
+                self.list_of_contacts_cache.append(Contact(firstname=firstname, lastname=lastname, id=id, all_phones_from_home_page=all_phones))
         return list(self.list_of_contacts_cache)
 
     # открытие контакта на редактирование / удаление (по индексу)
