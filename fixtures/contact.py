@@ -1,6 +1,7 @@
 from selenium.webdriver.support.ui import Select
 from models.contact import Contact
 import os
+import re
 
 # класс помощник
 class ContactHelper():
@@ -83,9 +84,7 @@ class ContactHelper():
     # изменение случайного контакта
     def modification_random_contact(self, contact, index):
         wd = self.app.wd
-        self.open_contact_page()
-        wd.find_elements_by_css_selector('img[src="icons/status_online.png"]')[index].click()
-        wd.find_element_by_css_selector('input[name="modifiy"]').click()
+        self.open_contact_to_edit_by_index(index)
         self.filling_fields(contact)
         wd.find_element_by_name("update").click()
         self.return_at_home_page()
@@ -98,9 +97,7 @@ class ContactHelper():
     # удаление случайного контакта
     def delete_random_contact(self, index):
         wd = self.app.wd
-        self.open_contact_page()
-        wd.find_elements_by_css_selector('img[src="icons/status_online.png"]')[index].click()
-        wd.find_element_by_css_selector('input[name="modifiy"]').click()
+        self.open_contact_to_edit_by_index(index)
         wd.find_element_by_css_selector('input[value="Delete"]').click()
         self.return_at_home_page()
         self.list_of_contacts_cache = None
@@ -118,7 +115,7 @@ class ContactHelper():
 
     list_of_contacts_cache = None
 
-    # получение списка контактов
+    # получение информации о контакте с главной страницы
     def get_contact_list(self):
         if self.list_of_contacts_cache is None:
             wd = self.app.wd
@@ -128,5 +125,40 @@ class ContactHelper():
                 firstname = element.find_element_by_xpath('td[3]').text
                 lastname = element.find_element_by_xpath('td[2]').text
                 id =  element.find_element_by_name("selected[]").get_attribute("value")
-                self.list_of_contacts_cache.append(Contact(firstname=firstname, lastname=lastname, id=id))
+                all_phones = element.find_element_by_xpath('td[6]').text.splitlines()
+                self.list_of_contacts_cache.append(Contact(firstname=firstname, lastname=lastname, id=id, home=all_phones[0], mobile=all_phones[1], work=all_phones[2]))
         return list(self.list_of_contacts_cache)
+
+    # открытие контакта на редактирование / удаление (по индексу)
+    def open_contact_to_edit_by_index(self, index):
+        wd = self.app.wd
+        self.open_contact_page()
+        wd.find_elements_by_css_selector('img[src="icons/pencil.png"]')[index].click()
+
+    # открытие контакта на просмотр (по индексу)
+    def open_contact_to_view_by_index(self, index):
+        wd = self.app.wd
+        self.open_contact_page()
+        wd.find_elements_by_css_selector('img[src="icons/status_online.png"]')[index].click()
+
+    # получение информации с карточки редактирования контакта
+    def get_contact_info_from_edit_page(self, index):
+        wd = self.app.wd
+        self.open_contact_to_edit_by_index(index)
+        firstname = wd.find_element_by_name("firstname").get_attribute("value")
+        lastname = wd.find_element_by_name("lastname").get_attribute("value")
+        id = wd.find_element_by_name("id").get_attribute("value")
+        homephone = wd.find_element_by_name("home").get_attribute("value")
+        mobilephone = wd.find_element_by_name("mobile").get_attribute("value")
+        workphone = wd.find_element_by_name("work").get_attribute("value")
+        return Contact(firstname=firstname, lastname=lastname, id=id, home=homephone, mobile=mobilephone, work=workphone)
+
+    # получение информации с карточки просмотра контакта
+    def get_contact_from_view_page(self, index):
+        wd = self.app.wd
+        self.open_contact_to_view_by_index(index)
+        text = wd.find_element_by_id('content').text
+        homephone = re.search('H: (.*)', text).group(1)
+        mobilephone = re.search('M: (.*)', text).group(1)
+        workphone = re.search('W: (.*)', text).group(1)
+        return Contact(home=homephone, mobile=mobilephone, work=workphone)
