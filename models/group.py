@@ -10,7 +10,7 @@ class Group:
 
     # переопределенная стандартная функция представления
     def __repr__(self):
-        return '%s %s' % (self.id, self.name)
+        return f"{self.id, self.name, self.header, self.footer}"
 
     # переопределенная стандартная функция сравнения
     def __eq__(self, other):
