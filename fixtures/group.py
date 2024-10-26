@@ -29,7 +29,7 @@ class GroupHelper():
         if wd.current_url.endswith("/group.php") and len(wd.find_elements_by_name("new")) > 0:
             return
         wd.find_element_by_link_text("groups").click()
-        wd.get("https://localhost/addressbook/group.php")
+        wd.get("http://localhost/addressbook/group.php")
 
     # создание новой группы
     def create(self, group):
