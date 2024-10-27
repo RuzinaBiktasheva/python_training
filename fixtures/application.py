@@ -12,7 +12,7 @@ class Application():
         elif browser == 'chrome':
             self.wd = webdriver.Chrome()
         else:
-            raise ValueError('Unrecognized browser:')# ' f'{browser}')
+            raise ValueError('Unrecognized browser:' f'{browser}')
         self.session = SessionHelper(self)
         self.group = GroupHelper(self)
         self.contact = ContactHelper(self)
