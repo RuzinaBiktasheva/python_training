@@ -3,10 +3,11 @@ from models.contact import Contact
 import pytest
 import random
 import string
+import re
 
 # данные для полей типа строка или textarea
 def random_string(prefix, maxlen):
-    symbols = string.ascii_letters + string.digits + ' '*10
+    symbols = string.ascii_letters + string.digits# + ' '*10
     return prefix + ''.join([random.choice(symbols) for i in range(random.randrange(maxlen))])
 
 # данные для телефонов
