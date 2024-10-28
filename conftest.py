@@ -1,7 +1,6 @@
 import pytest
 import json
 import os.path
-
 from fixtures.application import Application
 
 fixture = None

@@ -6,8 +6,9 @@ import re
 # класс помощник
 class ContactHelper():
 
-    def __init__(self, app):
+    def __init__(self, app, base_url):
         self.app = app
+        self.base_url = base_url
 
     # проверка передачи параметров при вызове функции (поля для ввода)
     def type(self, field_name, field_value):
@@ -40,7 +41,7 @@ class ContactHelper():
         wd = self.app.wd
         if not(wd.current_url.endswith("/addressbook/") and len(wd.find_elements_by_css_selector('input[value="Send e-Mail"]')) > 0):
             wd.find_element_by_link_text("home").click()
-            wd.get("http://localhost/addressbook/#")
+            wd.get(self.base_url)
 
     # заполнение полей
     def filling_fields(self, contact):
@@ -72,7 +73,7 @@ class ContactHelper():
     def create(self, contact):
         wd = self.app.wd
         wd.find_element_by_link_text("add new").click()
-        wd.get("http://localhost/addressbook/edit.php")
+        wd.get(self.base_url + 'edit.php')
         self.filling_fields(contact)
         wd.find_element_by_name("submit").click()
         self.return_at_home_page()

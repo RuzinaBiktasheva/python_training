@@ -1,12 +1,10 @@
 # класс помощник
-import time
-from os import times
-
 
 class SessionHelper():
 
-    def __init__(self, app):
+    def __init__(self, app, base_url):
         self.app = app
+        self.base_url = base_url
 
     def login(self, username, password):
         wd = self.app.wd
@@ -22,7 +20,7 @@ class SessionHelper():
     def logout(self):
         wd = self.app.wd
         wd.find_element_by_link_text("Logout").click()
-        wd.get("http://localhost/addressbook/#")
+        wd.get(self.base_url)
 
 # проверка аунтификации:
     def is_logged_in(self):

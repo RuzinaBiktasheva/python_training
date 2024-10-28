@@ -3,8 +3,9 @@ from models.group import Group
 # класс помощник
 class GroupHelper():
 
-    def __init__(self, app):
+    def __init__(self, app, base_url):
         self.app = app
+        self.base_url = base_url
 
     # проверка передачи параметров при вызове функции (поля для ввода)
     def type(self, field_name, field_value):
@@ -29,7 +30,7 @@ class GroupHelper():
         if wd.current_url.endswith("/group.php") and len(wd.find_elements_by_name("new")) > 0:
             return
         wd.find_element_by_link_text("groups").click()
-        wd.get("http://localhost/addressbook/group.php")
+        wd.get(self.base_url + 'group.php')
 
     # создание новой группы
     def create(self, group):

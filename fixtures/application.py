@@ -13,9 +13,9 @@ class Application():
             self.wd = webdriver.Chrome()
         else:
             raise ValueError('Unrecognized browser: ' f'{browser}')
-        self.session = SessionHelper(self)
-        self.group = GroupHelper(self)
-        self.contact = ContactHelper(self)
+        self.session = SessionHelper(self, base_url)
+        self.group = GroupHelper(self, base_url)
+        self.contact = ContactHelper(self, base_url)
         self.base_url = base_url
         self.path = path
 
