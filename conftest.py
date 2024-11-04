@@ -14,7 +14,7 @@ def app(request):
     global fixture
     global target
     browser = request.config.getoption('--browser')
-    path = request.config.getoption('--path')
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)))
     if target is None:
         config_file = os.path.join(path, request.config.getoption('--target'))
         with open(config_file) as file:
@@ -38,7 +38,6 @@ def stop(request):
 def pytest_addoption(parser):
     parser.addoption('--browser', action='store', default='firefox')
     parser.addoption('--target', action='store', default='target.json')
-    parser.addoption('--path', action='store', default='C:/training/python_training')
 
 def pytest_generate_tests(metafunc):
     for fixture in metafunc.fixturenames:
