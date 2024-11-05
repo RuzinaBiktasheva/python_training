@@ -92,6 +92,15 @@ class ContactHelper():
         self.return_at_home_page()
         self.list_of_contacts_cache = None
 
+    # изменение контакта по id
+    def modification_contact_by_id(self, contact, id):
+        wd = self.app.wd
+        self.open_contact_to_edit_by_id(id)
+        self.filling_fields(contact)
+        wd.find_element_by_name("update").click()
+        self.return_at_home_page()
+        self.list_of_contacts_cache = None
+
     # удаление первого контакта
     def delete_first_contact(self):
         self.delete_random_contact(0)
@@ -100,6 +109,14 @@ class ContactHelper():
     def delete_random_contact(self, index):
         wd = self.app.wd
         self.open_contact_to_edit_by_index(index)
+        wd.find_element_by_css_selector('input[value="Delete"]').click()
+        self.return_at_home_page()
+        self.list_of_contacts_cache = None
+
+    # удаление контакта по id
+    def delete_contact_by_id(self, id):
+        wd = self.app.wd
+        wd.find_element_by_css_selector('input[value="%s"]' % id).click()
         wd.find_element_by_css_selector('input[value="Delete"]').click()
         self.return_at_home_page()
         self.list_of_contacts_cache = None
@@ -138,6 +155,12 @@ class ContactHelper():
         wd = self.app.wd
         self.open_contact_page()
         wd.find_elements_by_css_selector('img[src="icons/pencil.png"]')[index].click()
+
+    # открытие контакта на редактирование / удаление (по id)
+    def open_contact_to_edit_by_id(self, id):
+        wd = self.app.wd
+        self.open_contact_page()
+        wd.find_element_by_css_selector('a[href="edit.php?id=%s"]' % id).click()
 
     # открытие контакта на просмотр (по индексу)
     def open_contact_to_view_by_index(self, index):
