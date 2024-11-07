@@ -6,7 +6,7 @@ import random
 # модификация контакта с помощью БД по id (проверка списков объектов, загруженных из базы данных)
 def test_modification_contact(app, db, check_ui):
     if app.contact.count() == 0:
-        app.contact.create(Contact(firstname="First_name_for_delete"))
+        app.contact.create(Contact(firstname="First_name_for_modification"))
     old_contacts = db.get_contact_list()
     contact = random.choice(old_contacts)
     modify_contact = Contact(firstname="New_first_name", lastname="New_last_name", address="New_address", home="New_telephone_home", mobile="New_telephone_mobile", work="New_telephone_work", fax="New_telephone_fax", email="New_email", email2="New_email_2", email3="New_email_3")
