@@ -37,5 +37,15 @@ class DbFixture():
             cursor.close()
         return list
 
+    # получение количества записей для определенного контакта с определенной группой
+    def get_contact_by_group_id(self, id_contact, id_group):
+        cursor = self.connection.cursor()
+        try:
+            cursor.execute('select count(*) from address_in_groups where group_id = "%s" and id = "%s"' % (id_group, id_contact))
+            count = cursor.fetchone()[0]
+        finally:
+            cursor.close()
+        return count
+
     def destroy(self):
         self.connection.close()
