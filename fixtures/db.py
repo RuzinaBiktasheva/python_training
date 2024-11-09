@@ -37,6 +37,16 @@ class DbFixture():
             cursor.close()
         return list
 
+    # получение контакта, который не состоит в группе
+    def get_contact_without_group(self):
+        cursor = self.connection.cursor()
+        try:
+            cursor.execute('select a.id from addressbook a left join address_in_groups b on a.id = b.id where b.id is null')
+            id_contact = cursor.fetchone()[0]
+        finally:
+            cursor.close()
+        return id_contact
+
     # получение количества записей для определенного контакта с определенной группой
     def get_contact_by_group_id(self, id_contact, id_group):
         cursor = self.connection.cursor()

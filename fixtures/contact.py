@@ -132,6 +132,14 @@ class ContactHelper():
         self.open_contact_page()
         return len(wd.find_elements_by_css_selector('img[src="icons/status_online.png"]'))
 
+    # подсчет количества контактов без привязки к группе
+    def count_without_group(self):
+        wd = self.app.wd
+        self.open_contact_page()
+        wd.find_element_by_name('group').click()
+        Select(wd.find_element_by_name('group')).select_by_value('[none]')
+        return len(wd.find_elements_by_css_selector('img[src="icons/status_online.png"]'))
+
     list_of_contacts_cache = None
 
     # получение информации о контакте с главной страницы
