@@ -140,6 +140,7 @@ class ContactHelper():
         Select(wd.find_element_by_name('group')).select_by_value('[none]')
         return len(wd.find_elements_by_css_selector('img[src="icons/status_online.png"]'))
 
+
     list_of_contacts_cache = None
 
     # получение информации о контакте с главной страницы
@@ -151,12 +152,29 @@ class ContactHelper():
             for element in wd.find_elements_by_css_selector('tr[name="entry"]'):
                 firstname = element.find_element_by_xpath('td[3]').text
                 lastname = element.find_element_by_xpath('td[2]').text
-                id =  element.find_element_by_name("selected[]").get_attribute("value")
+                id = element.find_element_by_name("selected[]").get_attribute("value")
                 address = element.find_element_by_xpath('td[4]').text
                 all_phones = element.find_element_by_xpath('td[6]').text
                 all_emails = element.find_element_by_xpath('td[5]').text
                 self.list_of_contacts_cache.append(Contact(firstname=firstname, lastname=lastname, id=id, address=address, all_phones_from_home_page=all_phones, all_emails_from_home_page=all_emails))
         return list(self.list_of_contacts_cache)
+
+    # получение информации о контакте с главной страницы по id
+    def get_info_about_contact_by_id(self, id_contact):
+        wd = self.app.wd
+        self.open_contact_page()
+        self.list = []
+        for element in wd.find_elements_by_css_selector('tr:has(input[value="%s"])' % id_contact):
+            firstname = element.find_element_by_xpath('td[3]').text
+            lastname = element.find_element_by_xpath('td[2]').text
+            id = element.find_element_by_name("selected[]").get_attribute("value")
+            address = element.find_element_by_xpath('td[4]').text
+            all_phones = element.find_element_by_xpath('td[6]').text
+            all_emails = element.find_element_by_xpath('td[5]').text
+            self.list.append(Contact(firstname=firstname, lastname=lastname, id=id, address=address,
+                                                       all_phones_from_home_page=all_phones,
+                                                       all_emails_from_home_page=all_emails))
+        return list(self.list)
 
     # открытие контакта на редактирование / удаление (по индексу)
     def open_contact_to_edit_by_index(self, index):

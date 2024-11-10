@@ -30,7 +30,7 @@ class Contact:
 
     # переопределенная стандартная функция представления
     def __repr__(self):
-        return f'{self.id} {self.lastname} {self.firstname}'
+        return f'{self.id} {self.lastname} {self.firstname} {self.address} {self.email} {self.email2} {self.email3} {self.home} {self.mobile} {self.work}'
 
     # переопределенная стандартная функция сравнения
     def __eq__(self, other):

@@ -57,5 +57,29 @@ class DbFixture():
             cursor.close()
         return count
 
+    # получение информации о пользователе по id
+    def get_info_about_contact_by_id(self, id_contact):
+        cursor = self.connection.cursor()
+        list = []
+        try:
+            cursor.execute('select id, lastname, firstname, address, email, email2, email3, home, mobile, work from addressbook where id = "%s"' % id_contact)
+            for row in cursor:
+                (id, lastname, firstname, address, email, email2, email3, home, mobile, work) = row
+                list.append(Contact(id=str(id), lastname=lastname, firstname=firstname, address=address, email=email,
+                                    email2=email2, email3=email3, home=home, mobile=mobile, work=work))
+        finally:
+            cursor.close()
+        return list
+
+    # получение списка id контактов из БД
+    def get_id_contact_list(self):
+        cursor = self.connection.cursor()
+        try:
+            cursor.execute('select id from addressbook')
+            list = cursor.fetchall()
+        finally:
+            cursor.close()
+        return list
+
     def destroy(self):
         self.connection.close()
