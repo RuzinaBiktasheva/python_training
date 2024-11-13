@@ -9,7 +9,6 @@ def test_all_info_with_db(app, db):
         id_contact = element[0]
         contact_from_home_page = app.contact.get_info_about_contact_by_id(id_contact)[0]
         contact_from_db = db.get_info_about_contact_by_id(id_contact)[0]
-        print(id_contact, contact_from_home_page.all_phones_from_home_page, merge_phones_like_on_home_page(contact_from_db))
         assert contact_from_home_page.lastname == contact_from_db.lastname
         assert contact_from_home_page.firstname == contact_from_db.firstname
         assert contact_from_home_page.address == contact_from_db.address
