@@ -7,8 +7,9 @@ def test_all_info_with_db(app, db):
     list = db.get_id_contact_list() # получение списка id контактов
     for element in list:
         id_contact = element[0]
-        contact_from_home_page = app.contact.get_info_about_contact_by_id(id_contact)[0]
-        contact_from_db = db.get_info_about_contact_by_id(id_contact)[0]
+        contact_from_home_page = app.contact.get_info_about_contact_by_id(id_contact)
+        contact_from_db = db.get_info_about_contact_by_id(id_contact)
+        print(contact_from_home_page.id, contact_from_db.id, contact_from_home_page.lastname, contact_from_db.lastname)
         assert contact_from_home_page.lastname == contact_from_db.lastname
         assert contact_from_home_page.firstname == contact_from_db.firstname
         assert contact_from_home_page.address == contact_from_db.address

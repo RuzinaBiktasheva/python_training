@@ -163,7 +163,6 @@ class ContactHelper():
     def get_info_about_contact_by_id(self, id_contact):
         wd = self.app.wd
         self.open_contact_page()
-        self.list = []
         for element in wd.find_elements_by_css_selector('tr:has(input[value="%s"])' % id_contact):
             firstname = element.find_element_by_xpath('td[3]').text
             lastname = element.find_element_by_xpath('td[2]').text
@@ -171,10 +170,8 @@ class ContactHelper():
             address = element.find_element_by_xpath('td[4]').text
             all_phones = element.find_element_by_xpath('td[6]').text
             all_emails = element.find_element_by_xpath('td[5]').text
-            self.list.append(Contact(firstname=firstname, lastname=lastname, id=id, address=address,
-                                                       all_phones_from_home_page=all_phones,
-                                                       all_emails_from_home_page=all_emails))
-        return list(self.list)
+            contact = (Contact(firstname=firstname, lastname=lastname, id=id, address=address, all_phones_from_home_page=all_phones, all_emails_from_home_page=all_emails))
+        return contact
 
     # открытие контакта на редактирование / удаление (по индексу)
     def open_contact_to_edit_by_index(self, index):
