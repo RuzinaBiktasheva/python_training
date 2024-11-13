@@ -64,8 +64,7 @@ class DbFixture():
             cursor.execute('select id, lastname, firstname, address, email, email2, email3, home, mobile, work from addressbook where id = "%s"' % id_contact)
             for row in cursor:
                 (id, lastname, firstname, address, email, email2, email3, home, mobile, work) = row
-                contact = Contact(id=str(id), lastname=lastname, firstname=firstname, address=address, email=email,
-                                    email2=email2, email3=email3, home=home, mobile=mobile, work=work)
+                contact = Contact(id=str(id), lastname=lastname, firstname=firstname, address=address, email=email, email2=email2, email3=email3, home=home, mobile=mobile, work=work)
         finally:
             cursor.close()
         return contact
