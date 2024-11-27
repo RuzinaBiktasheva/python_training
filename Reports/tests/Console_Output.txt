@@ -1,0 +1,110 @@
+Started by user admin
+Running as SYSTEM
+Building in workspace C:\Users\User\.jenkins\workspace\addressbook tests
+The recommended git tool is: NONE
+No credentials specified
+ > C:\Program Files\Git\bin\git.exe rev-parse --resolve-git-dir C:\Users\User\.jenkins\workspace\addressbook tests\.git # timeout=10
+Fetching changes from the remote Git repository
+ > C:\Program Files\Git\bin\git.exe config remote.origin.url https://github.com/RuzinaBiktasheva/python_training # timeout=10
+Fetching upstream changes from https://github.com/RuzinaBiktasheva/python_training
+ > C:\Program Files\Git\bin\git.exe --version # timeout=10
+ > git --version # 'git version 2.45.1.windows.1'
+ > C:\Program Files\Git\bin\git.exe fetch --tags --force --progress -- https://github.com/RuzinaBiktasheva/python_training +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > C:\Program Files\Git\bin\git.exe rev-parse "refs/remotes/origin/main^{commit}" # timeout=10
+Checking out Revision b918afced75e57afe8c38446d2cefdbae4de72db (refs/remotes/origin/main)
+ > C:\Program Files\Git\bin\git.exe config core.sparsecheckout # timeout=10
+ > C:\Program Files\Git\bin\git.exe checkout -f b918afced75e57afe8c38446d2cefdbae4de72db # timeout=10
+Commit message: "Корректировка данных"
+ > C:\Program Files\Git\bin\git.exe rev-list --no-walk b918afced75e57afe8c38446d2cefdbae4de72db # timeout=10
+[addressbook tests] $ cmd /c call C:\Users\User\AppData\Local\Temp\jenkins3140558704815423953.bat
+
+C:\Users\User\.jenkins\workspace\addressbook tests>call C:\training\python_training\env\Scripts\activate 
+
+(env) C:\Users\User\.jenkins\workspace\addressbook tests>py.test --junitxml=result.xml tests\ 
+============================= test session starts =============================
+platform win32 -- Python 3.13.0, pytest-8.3.3, pluggy-1.5.0
+rootdir: C:\Users\User\.jenkins\workspace\addressbook tests
+plugins: bdd-8.0.0
+collected 12 items
+
+tests\test_add_contact.py ..                                             [ 16%]
+tests\test_add_group.py ..                                               [ 33%]
+tests\test_all_info.py .                                                 [ 41%]
+tests\test_db_matches_ui.py .                                            [ 50%]
+tests\test_delete_contact.py .                                           [ 58%]
+tests\test_delete_group.py .                                             [ 66%]
+tests\test_modification_contact.py .                                     [ 75%]
+tests\test_modification_group.py .                                       [ 83%]
+tests\test_phons.py ..                                                   [100%]
+
+============================== warnings summary ===============================
+tests/test_all_info.py::test_all_info_with_db
+tests/test_all_info.py::test_all_info_with_db
+tests/test_all_info.py::test_all_info_with_db
+tests/test_all_info.py::test_all_info_with_db
+  C:\Users\User\.jenkins\workspace\addressbook tests\fixtures\contact.py:170: DeprecationWarning: using WebElement.get_attribute() has been deprecated. Please use get_dom_attribute() instead.
+    id = element.find_element(By.NAME, "selected[]").get_attribute("value")
+
+tests/test_db_matches_ui.py: 29 warnings
+  C:\Users\User\.jenkins\workspace\addressbook tests\fixtures\group.py:115: DeprecationWarning: using WebElement.get_attribute() has been deprecated. Please use get_dom_attribute() instead.
+    id = element.find_element(By.NAME, "selected[]").get_attribute("value")
+
+tests/test_phons.py::test_phones_on_home_page
+tests/test_phons.py::test_phones_on_home_page
+tests/test_phons.py::test_phones_on_home_page
+  C:\Users\User\.jenkins\workspace\addressbook tests\fixtures\contact.py:156: DeprecationWarning: using WebElement.get_attribute() has been deprecated. Please use get_dom_attribute() instead.
+    id = element.find_element(By.NAME, "selected[]").get_attribute("value")
+
+tests/test_phons.py::test_phones_on_home_page
+tests/test_phons.py::test_phones_on_contact_view_page
+  C:\Users\User\.jenkins\workspace\addressbook tests\fixtures\contact.py:199: DeprecationWarning: using WebElement.get_attribute() has been deprecated. Please use get_dom_attribute() instead.
+    firstname = wd.find_element(By.NAME, "firstname").get_attribute("value")
+
+tests/test_phons.py::test_phones_on_home_page
+tests/test_phons.py::test_phones_on_contact_view_page
+  C:\Users\User\.jenkins\workspace\addressbook tests\fixtures\contact.py:200: DeprecationWarning: using WebElement.get_attribute() has been deprecated. Please use get_dom_attribute() instead.
+    lastname = wd.find_element(By.NAME, "lastname").get_attribute("value")
+
+tests/test_phons.py::test_phones_on_home_page
+tests/test_phons.py::test_phones_on_contact_view_page
+  C:\Users\User\.jenkins\workspace\addressbook tests\fixtures\contact.py:201: DeprecationWarning: using WebElement.get_attribute() has been deprecated. Please use get_dom_attribute() instead.
+    id = wd.find_element(By.NAME, "id").get_attribute("value")
+
+tests/test_phons.py::test_phones_on_home_page
+tests/test_phons.py::test_phones_on_contact_view_page
+  C:\Users\User\.jenkins\workspace\addressbook tests\fixtures\contact.py:203: DeprecationWarning: using WebElement.get_attribute() has been deprecated. Please use get_dom_attribute() instead.
+    homephone = wd.find_element(By.NAME, "home").get_attribute("value")
+
+tests/test_phons.py::test_phones_on_home_page
+tests/test_phons.py::test_phones_on_contact_view_page
+  C:\Users\User\.jenkins\workspace\addressbook tests\fixtures\contact.py:204: DeprecationWarning: using WebElement.get_attribute() has been deprecated. Please use get_dom_attribute() instead.
+    mobilephone = wd.find_element(By.NAME, "mobile").get_attribute("value")
+
+tests/test_phons.py::test_phones_on_home_page
+tests/test_phons.py::test_phones_on_contact_view_page
+  C:\Users\User\.jenkins\workspace\addressbook tests\fixtures\contact.py:205: DeprecationWarning: using WebElement.get_attribute() has been deprecated. Please use get_dom_attribute() instead.
+    workphone = wd.find_element(By.NAME, "work").get_attribute("value")
+
+tests/test_phons.py::test_phones_on_home_page
+tests/test_phons.py::test_phones_on_contact_view_page
+  C:\Users\User\.jenkins\workspace\addressbook tests\fixtures\contact.py:206: DeprecationWarning: using WebElement.get_attribute() has been deprecated. Please use get_dom_attribute() instead.
+    email = wd.find_element(By.NAME, "email").get_attribute("value")
+
+tests/test_phons.py::test_phones_on_home_page
+tests/test_phons.py::test_phones_on_contact_view_page
+  C:\Users\User\.jenkins\workspace\addressbook tests\fixtures\contact.py:207: DeprecationWarning: using WebElement.get_attribute() has been deprecated. Please use get_dom_attribute() instead.
+    email2 = wd.find_element(By.NAME, "email2").get_attribute("value")
+
+tests/test_phons.py::test_phones_on_home_page
+tests/test_phons.py::test_phones_on_contact_view_page
+  C:\Users\User\.jenkins\workspace\addressbook tests\fixtures\contact.py:208: DeprecationWarning: using WebElement.get_attribute() has been deprecated. Please use get_dom_attribute() instead.
+    email3 = wd.find_element(By.NAME, "email3").get_attribute("value")
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: C:\Users\User\.jenkins\workspace\addressbook tests\result.xml -
+====================== 12 passed, 54 warnings in 35.17s =======================
+
+(env) C:\Users\User\.jenkins\workspace\addressbook tests>exit 0 
+Recording test results
+[Checks API] No suitable checks publisher found.
+Finished: SUCCESS
