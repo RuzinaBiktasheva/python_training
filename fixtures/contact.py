@@ -2,6 +2,7 @@ from selenium.webdriver.support.ui import Select
 from models.contact import Contact
 import os
 import re
+from selenium.webdriver.common.by import By
 
 # класс помощник
 class ContactHelper():
@@ -14,9 +15,9 @@ class ContactHelper():
     def type(self, field_name, field_value):
         wd = self.app.wd
         if field_value is not None:
-            wd.find_element_by_name(field_name).click()
-            wd.find_element_by_name(field_name).clear()
-            wd.find_element_by_name(field_name).send_keys(field_value)
+            wd.find_element(By.NAME, field_name).click()
+            wd.find_element(By.NAME, field_name).clear()
+            wd.find_element(By.NAME, field_name).send_keys(field_value)
         else:
             pass
 
@@ -24,8 +25,8 @@ class ContactHelper():
     def type_list(self, field_name, field_value):
         wd = self.app.wd
         if field_value is not None:
-            wd.find_element_by_name(field_name).click()
-            Select(wd.find_element_by_name(field_name)).select_by_visible_text(field_value)
+            wd.find_element(By.NAME, field_name).click()
+            Select(wd.find_element(By.NAME, field_name)).select_by_visible_text(field_value)
         else:
             pass
 
@@ -34,13 +35,13 @@ class ContactHelper():
         wd = self.app.wd
         current_dir = os.path.abspath(os.path.dirname(__file__))
         file_path = os.path.join(current_dir, 'test.txt')
-        wd.find_element_by_css_selector('input[name="photo"]').send_keys(file_path)
+        wd.find_element(By.CSS_SELECTOR, 'input[name="photo"]').send_keys(file_path)
 
     # открытие страницы контактов
     def open_contact_page(self):
         wd = self.app.wd
-        if not(wd.current_url.endswith("/addressbook/") and len(wd.find_elements_by_css_selector('input[value="Send e-Mail"]')) > 0):
-            wd.find_element_by_link_text("home").click()
+        if not(wd.current_url.endswith("/addressbook/") and len(wd.find_elements(By.CSS_SELECTOR, 'input[value="Send e-Mail"]')) > 0):
+            wd.find_element(By.LINK_TEXT, "home").click()
             wd.get(self.base_url)
 
     # заполнение полей
@@ -72,10 +73,10 @@ class ContactHelper():
     # создание контакта
     def create(self, contact):
         wd = self.app.wd
-        wd.find_element_by_link_text("add new").click()
+        wd.find_element(By.LINK_TEXT, "add new").click()
         wd.get(self.base_url + 'edit.php')
         self.filling_fields(contact)
-        wd.find_element_by_name("submit").click()
+        wd.find_element(By.NAME, "submit").click()
         self.return_at_home_page()
         self.list_of_contacts_cache = None
 
@@ -88,7 +89,7 @@ class ContactHelper():
         wd = self.app.wd
         self.open_contact_to_edit_by_index(index)
         self.filling_fields(contact)
-        wd.find_element_by_name("update").click()
+        wd.find_element(By.NAME, "update").click()
         self.return_at_home_page()
         self.list_of_contacts_cache = None
 
@@ -97,7 +98,7 @@ class ContactHelper():
         wd = self.app.wd
         self.open_contact_to_edit_by_id(id)
         self.filling_fields(contact)
-        wd.find_element_by_name("update").click()
+        wd.find_element(By.NAME, "update").click()
         self.return_at_home_page()
         self.list_of_contacts_cache = None
 
@@ -109,36 +110,36 @@ class ContactHelper():
     def delete_random_contact(self, index):
         wd = self.app.wd
         self.open_contact_to_edit_by_index(index)
-        wd.find_element_by_css_selector('input[value="Delete"]').click()
+        wd.find_element(By.CSS_SELECTOR, 'input[value="Delete"]').click()
         self.return_at_home_page()
         self.list_of_contacts_cache = None
 
     # удаление контакта по id
     def delete_contact_by_id(self, id):
         wd = self.app.wd
-        wd.find_element_by_css_selector('input[value="%s"]' % id).click()
-        wd.find_element_by_css_selector('input[value="Delete"]').click()
+        wd.find_element(By.CSS_SELECTOR, 'input[value="%s"]' % id).click()
+        wd.find_element(By.CSS_SELECTOR, 'input[value="Delete"]').click()
         self.return_at_home_page()
         self.list_of_contacts_cache = None
 
     # возврат на домашнюю страницу
     def return_at_home_page(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("home").click()
+        wd.find_element(By.LINK_TEXT, "home").click()
 
     # подсчет количества контактов
     def count(self):
         wd = self.app.wd
         self.open_contact_page()
-        return len(wd.find_elements_by_css_selector('img[src="icons/status_online.png"]'))
+        return len(wd.find_elements(By.CSS_SELECTOR, 'img[src="icons/status_online.png"]'))
 
     # подсчет количества контактов без привязки к группе
     def count_without_group(self):
         wd = self.app.wd
         self.open_contact_page()
-        wd.find_element_by_name('group').click()
-        Select(wd.find_element_by_name('group')).select_by_value('[none]')
-        return len(wd.find_elements_by_css_selector('img[src="icons/status_online.png"]'))
+        wd.find_element(By.NAME, 'group').click()
+        Select(wd.find_element(By.NAME, 'group')).select_by_value('[none]')
+        return len(wd.find_elements(By.CSS_SELECTOR, 'img[src="icons/status_online.png"]'))
 
 
     list_of_contacts_cache = None
@@ -149,13 +150,13 @@ class ContactHelper():
             wd = self.app.wd
             self.open_contact_page()
             self.list_of_contacts_cache = []
-            for element in wd.find_elements_by_css_selector('tr[name="entry"]'):
-                firstname = element.find_element_by_xpath('td[3]').text
-                lastname = element.find_element_by_xpath('td[2]').text
-                id = element.find_element_by_name("selected[]").get_attribute("value")
-                address = element.find_element_by_xpath('td[4]').text
-                all_phones = element.find_element_by_xpath('td[6]').text
-                all_emails = element.find_element_by_xpath('td[5]').text
+            for element in wd.find_elements(By.CSS_SELECTOR, 'tr[name="entry"]'):
+                firstname = element.find_element(By.XPATH, 'td[3]').text
+                lastname = element.find_element(By.XPATH, 'td[2]').text
+                id = element.find_element(By.NAME, "selected[]").get_attribute("value")
+                address = element.find_element(By.XPATH, 'td[4]').text
+                all_phones = element.find_element(By.XPATH, 'td[6]').text
+                all_emails = element.find_element(By.XPATH, 'td[5]').text
                 self.list_of_contacts_cache.append(Contact(firstname=firstname, lastname=lastname, id=id, address=address, all_phones_from_home_page=all_phones, all_emails_from_home_page=all_emails))
         return list(self.list_of_contacts_cache)
 
@@ -163,13 +164,13 @@ class ContactHelper():
     def get_info_about_contact_by_id(self, id_contact):
         wd = self.app.wd
         self.open_contact_page()
-        for element in wd.find_elements_by_css_selector('tr:has(input[value="%s"])' % id_contact):
-            firstname = element.find_element_by_xpath('td[3]').text
-            lastname = element.find_element_by_xpath('td[2]').text
-            id = element.find_element_by_name("selected[]").get_attribute("value")
-            address = element.find_element_by_xpath('td[4]').text
-            all_phones = element.find_element_by_xpath('td[6]').text
-            all_emails = element.find_element_by_xpath('td[5]').text
+        for element in wd.find_elements(By.CSS_SELECTOR, 'tr:has(input[value="%s"])' % id_contact):
+            firstname = element.find_element(By.XPATH, 'td[3]').text
+            lastname = element.find_element(By.XPATH, 'td[2]').text
+            id = element.find_element(By.NAME, "selected[]").get_attribute("value")
+            address = element.find_element(By.XPATH, 'td[4]').text
+            all_phones = element.find_element(By.XPATH, 'td[6]').text
+            all_emails = element.find_element(By.XPATH, 'td[5]').text
             contact = (Contact(firstname=firstname, lastname=lastname, id=id, address=address, all_phones_from_home_page=all_phones, all_emails_from_home_page=all_emails))
         return contact
 
@@ -177,41 +178,41 @@ class ContactHelper():
     def open_contact_to_edit_by_index(self, index):
         wd = self.app.wd
         self.open_contact_page()
-        wd.find_elements_by_css_selector('img[src="icons/pencil.png"]')[index].click()
+        wd.find_elements(By.CSS_SELECTOR, 'img[src="icons/pencil.png"]')[index].click()
 
     # открытие контакта на редактирование / удаление (по id)
     def open_contact_to_edit_by_id(self, id):
         wd = self.app.wd
         self.open_contact_page()
-        wd.find_element_by_css_selector('a[href="edit.php?id=%s"]' % id).click()
+        wd.find_element(By.CSS_SELECTOR, 'a[href="edit.php?id=%s"]' % id).click()
 
     # открытие контакта на просмотр (по индексу)
     def open_contact_to_view_by_index(self, index):
         wd = self.app.wd
         self.open_contact_page()
-        wd.find_elements_by_css_selector('img[src="icons/status_online.png"]')[index].click()
+        wd.find_elements(By.CSS_SELECTOR, 'img[src="icons/status_online.png"]')[index].click()
 
     # получение информации с карточки редактирования контакта
     def get_contact_info_from_edit_page(self, index):
         wd = self.app.wd
         self.open_contact_to_edit_by_index(index)
-        firstname = wd.find_element_by_name("firstname").get_attribute("value")
-        lastname = wd.find_element_by_name("lastname").get_attribute("value")
-        id = wd.find_element_by_name("id").get_attribute("value")
-        address = wd.find_element_by_name("address").text
-        homephone = wd.find_element_by_name("home").get_attribute("value")
-        mobilephone = wd.find_element_by_name("mobile").get_attribute("value")
-        workphone = wd.find_element_by_name("work").get_attribute("value")
-        email = wd.find_element_by_name("email").get_attribute("value")
-        email2 = wd.find_element_by_name("email2").get_attribute("value")
-        email3 = wd.find_element_by_name("email3").get_attribute("value")
+        firstname = wd.find_element(By.NAME, "firstname").get_attribute("value")
+        lastname = wd.find_element(By.NAME, "lastname").get_attribute("value")
+        id = wd.find_element(By.NAME, "id").get_attribute("value")
+        address = wd.find_element(By.NAME, "address").text
+        homephone = wd.find_element(By.NAME, "home").get_attribute("value")
+        mobilephone = wd.find_element(By.NAME, "mobile").get_attribute("value")
+        workphone = wd.find_element(By.NAME, "work").get_attribute("value")
+        email = wd.find_element(By.NAME, "email").get_attribute("value")
+        email2 = wd.find_element(By.NAME, "email2").get_attribute("value")
+        email3 = wd.find_element(By.NAME, "email3").get_attribute("value")
         return Contact(firstname=firstname, lastname=lastname, id=id, address=address, home=homephone, mobile=mobilephone, work=workphone, email=email, email2=email2, email3=email3)
 
     # получение информации с карточки просмотра контакта
     def get_contact_from_view_page(self, index):
         wd = self.app.wd
         self.open_contact_to_view_by_index(index)
-        text = wd.find_element_by_id('content').text
+        text = wd.find_element(By.ID, 'content').text
         homephone = re.search('H: (.*)', text).group(1)
         mobilephone = re.search('M: (.*)', text).group(1)
         workphone = re.search('W: (.*)', text).group(1)
@@ -221,16 +222,16 @@ class ContactHelper():
     def add_contact_to_group(self, id_contact, id_group):
         wd = self.app.wd
         self.open_contact_page()
-        wd.find_element_by_css_selector('input[value="%s"]' % id_contact).click()
-        wd.find_element_by_name('to_group').click()
-        Select(wd.find_element_by_name('to_group')).select_by_value(id_group)
-        wd.find_element_by_css_selector('input[name="add"]').click()
+        wd.find_element(By.CSS_SELECTOR, 'input[value="%s"]' % id_contact).click()
+        wd.find_element(By.NAME, 'to_group').click()
+        Select(wd.find_element(By.NAME, 'to_group')).select_by_value(id_group)
+        wd.find_element(By.CSS_SELECTOR, 'input[name="add"]').click()
 
     # удаление контакта из группы
     def delete_contact_from_group(self, id_contact, id_group):
          wd = self.app.wd
          self.open_contact_page()
-         wd.find_element_by_name('group').click()
-         Select(wd.find_element_by_name('group')).select_by_value(id_group)
-         wd.find_element_by_css_selector('input[value="%s"]' % id_contact).click()
-         wd.find_element_by_name('remove').click()
+         wd.find_element(By.NAME, 'group').click()
+         Select(wd.find_element(By.NAME, 'group')).select_by_value(id_group)
+         wd.find_element(By.CSS_SELECTOR, 'input[value="%s"]' % id_contact).click()
+         wd.find_element(By.NAME, 'remove').click()

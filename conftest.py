@@ -13,7 +13,7 @@ target = None
 # загрузка конфигурации из файла target.json
 def load_config(file):
     global target
-    path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)))
     if target is None:
         config_file = os.path.join(path, file)
         with open(config_file) as file:
@@ -27,9 +27,9 @@ def app(request):
     path = os.path.join(os.path.dirname(os.path.abspath(__file__)))
     web_config = load_config(request.config.getoption('--target'))['web']
     browser = request.config.getoption('--browser')
-    #if fixture is None or not fixture.is_valid():
-    fixture = Application(browser=browser, base_url=web_config['baseUrl'])
-    fixture.session.login(username=web_config['username'], password=web_config['password'])
+    if fixture is None or not fixture.is_valid():
+        fixture = Application(browser=browser, base_url=web_config['baseUrl'])
+    fixture.session.ensure_login(username=web_config['username'], password=web_config['password'])
     return fixture
 
 
@@ -79,5 +79,5 @@ def load_from_module(module):
     return importlib.import_module('data.%s' % module).testdata
 
 def load_from_json(file):
-    with open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/%s.json' % file)) as f:
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data/%s.json') % file) as f:
         return jsonpickle.decode(f.read())

@@ -29,7 +29,7 @@ class SessionHelper():
 
 # проверка, что аунтификация выполнена под нужным пользователем:
     def is_logged_in_as(self, username):
-        return 'admin' == username#self.get_logged_user() == username
+        return self.get_logged_user() == username
 
 # получение имени пользователя
     def get_logged_user(self):
@@ -48,4 +48,4 @@ class SessionHelper():
                 return
             else:
                 self.logout()
-                self.login(username, password)
+        self.login(username, password)
