@@ -1,4 +1,5 @@
 from models.group import Group
+from selenium.webdriver.common.by import By
 
 # класс помощник
 class GroupHelper():
@@ -11,9 +12,9 @@ class GroupHelper():
     def type(self, field_name, field_value):
         wd = self.app.wd
         if field_value is not None:
-            wd.find_element_by_name(field_name).click()
-            wd.find_element_by_name(field_name).clear()
-            wd.find_element_by_name(field_name).send_keys(field_value)
+            wd.find_element(By.NAME, field_name).click()
+            wd.find_element(By.NAME, field_name).clear()
+            wd.find_element(By.NAME, field_name).send_keys(field_value)
         else:
             pass
 
@@ -27,18 +28,18 @@ class GroupHelper():
     # открытие страницы групп
     def open_group_page(self):
         wd = self.app.wd
-        if wd.current_url.endswith("/group.php") and len(wd.find_elements_by_name("new")) > 0:
+        if wd.current_url.endswith("/group.php") and len(wd.find_elements(By.NAME, "new")) > 0:
             return
-        wd.find_element_by_link_text("groups").click()
+#        wd.find_element(By.NAME, 'groups').click()
         wd.get(self.base_url + 'group.php')
 
     # создание новой группы
     def create(self, group):
         wd = self.app.wd
         self.open_group_page()
-        wd.find_element_by_name("new").click()
+        wd.find_element(By.NAME, "new").click()
         self.filling_fields(group)
-        wd.find_element_by_name("submit").click()
+        wd.find_element(By.NAME, "submit").click()
         self.return_at_home_page()
         self.list_of_groups_cache = None
 
@@ -50,10 +51,10 @@ class GroupHelper():
     def modification_randon_group(self, group, index):
         wd = self.app.wd
         self.open_group_page()
-        wd.find_elements_by_name("selected[]")[index].click()
-        wd.find_element_by_css_selector('input[name="edit"]').click()
+        wd.find_elements(By.NAME, "selected[]")[index].click()
+        wd.find_element(By.CSS_SELECTOR, 'input[name="edit"]').click()
         self.filling_fields(group)
-        wd.find_element_by_name("update").click()
+        wd.find_element(By.NAME, "update").click()
         self.return_at_home_page()
         self.list_of_groups_cache = None
 
@@ -61,10 +62,10 @@ class GroupHelper():
     def modification_group_by_id(self, group, id):
         wd = self.app.wd
         self.open_group_page()
-        wd.find_element_by_css_selector('input[value="%s"]' % id).click()
-        wd.find_element_by_css_selector('input[name="edit"]').click()
+        wd.find_element(By.CSS_SELECTOR, 'input[value="%s"]' % id).click()
+        wd.find_element(By.CSS_SELECTOR, 'input[name="edit"]').click()
         self.filling_fields(group)
-        wd.find_element_by_name("update").click()
+        wd.find_element(By.NAME, "update").click()
         self.return_at_home_page()
         self.list_of_groups_cache = None
 
@@ -76,8 +77,8 @@ class GroupHelper():
     def delete_random_group(self, index):
         wd = self.app.wd
         self.open_group_page()
-        wd.find_elements_by_name("selected[]")[index].click()
-        wd.find_element_by_css_selector('input[name="delete"]').click()
+        wd.find_elements(By.NAME, "selected[]")[index].click()
+        wd.find_element(By.CSS_SELECTOR, 'input[name="delete"]').click()
         self.return_at_home_page()
         self.list_of_groups_cache = None
 
@@ -85,21 +86,21 @@ class GroupHelper():
     def delete_group_by_id(self, id):
         wd = self.app.wd
         self.open_group_page()
-        wd.find_element_by_css_selector('input[value="%s"]' % id).click()
-        wd.find_element_by_css_selector('input[name="delete"]').click()
+        wd.find_element(By.CSS_SELECTOR, 'input[value="%s"]' % id).click()
+        wd.find_element(By.CSS_SELECTOR, 'input[name="delete"]').click()
         self.return_at_home_page()
         self.list_of_groups_cache = None
 
     # возврат на домашнюю страницу
     def return_at_home_page(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("home").click()
+        wd.find_element(By.LINK_TEXT, "home").click()
 
     # подсчет количества групп
     def count(self):
         wd = self.app.wd
         self.open_group_page()
-        return len(wd.find_elements_by_name("selected[]"))
+        return len(wd.find_elements(By.NAME, "selected[]"))
 
     list_of_groups_cache = None
 
@@ -109,8 +110,8 @@ class GroupHelper():
             wd = self.app.wd
             self.open_group_page()
             self.list_of_groups_cashe = []
-            for element in wd.find_elements_by_css_selector("span.group"):
+            for element in wd.find_elements(By.CSS_SELECTOR, "span.group"):
                 text = element.text
-                id = element.find_element_by_name("selected[]").get_attribute("value")
+                id = element.find_element(By.NAME, "selected[]").get_attribute("value")
                 self.list_of_groups_cashe.append(Group(name=text, id=id))
         return list(self.list_of_groups_cashe)

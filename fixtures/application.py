@@ -2,13 +2,18 @@ from selenium import webdriver
 from fixtures.group import GroupHelper
 from fixtures.session import SessionHelper
 from fixtures.contact import ContactHelper
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.firefox.options import Options
 
 # класс менеджер:
 class Application():
 
-    def __init__(self, browser, base_url, path):
+    def __init__(self, browser, base_url):
         if browser == 'firefox':
-            self.wd = webdriver.Firefox()
+            options = Options()
+            options.binary_location = r"C:\Browsers\MozillaFirefox\firefox.exe"
+            service = Service(executable_path=r'C:\Windows\SysWOW64\geckodriver.exe')
+            self.wd = webdriver.Firefox(service=service, options=options)
         elif browser == 'chrome':
             self.wd = webdriver.Chrome()
         else:
@@ -17,7 +22,6 @@ class Application():
         self.group = GroupHelper(self, base_url)
         self.contact = ContactHelper(self, base_url)
         self.base_url = base_url
-        self.path = path
 
 # проверка валидности фикстуры:
     def is_valid(self):
