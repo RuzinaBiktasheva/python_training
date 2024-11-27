@@ -10,10 +10,7 @@ class Application():
 
     def __init__(self, browser, base_url):
         if browser == 'firefox':
-            options = Options()
-            options.binary_location = r"C:\Browsers\MozillaFirefox\firefox.exe"
-            service = Service(executable_path=r'C:\Windows\SysWOW64\geckodriver.exe')
-            self.wd = webdriver.Firefox(service=service, options=options)
+            self.wd = webdriver.Firefox()
         elif browser == 'chrome':
             self.wd = webdriver.Chrome()
         else:
