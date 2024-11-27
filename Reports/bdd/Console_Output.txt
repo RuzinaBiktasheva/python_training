@@ -1,0 +1,48 @@
+Started by user admin
+Running as SYSTEM
+Building in workspace C:\Users\User\.jenkins\workspace\addressbook bdd test
+The recommended git tool is: NONE
+No credentials specified
+ > C:\Program Files\Git\bin\git.exe rev-parse --resolve-git-dir C:\Users\User\.jenkins\workspace\addressbook bdd test\.git # timeout=10
+Fetching changes from the remote Git repository
+ > C:\Program Files\Git\bin\git.exe config remote.origin.url https://github.com/RuzinaBiktasheva/python_training # timeout=10
+Fetching upstream changes from https://github.com/RuzinaBiktasheva/python_training
+ > C:\Program Files\Git\bin\git.exe --version # timeout=10
+ > git --version # 'git version 2.45.1.windows.1'
+ > C:\Program Files\Git\bin\git.exe fetch --tags --force --progress -- https://github.com/RuzinaBiktasheva/python_training +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > C:\Program Files\Git\bin\git.exe rev-parse "refs/remotes/origin/main^{commit}" # timeout=10
+Checking out Revision 4c4fdf77e757f122a81d4181cbc810ba93296295 (refs/remotes/origin/main)
+ > C:\Program Files\Git\bin\git.exe config core.sparsecheckout # timeout=10
+ > C:\Program Files\Git\bin\git.exe checkout -f 4c4fdf77e757f122a81d4181cbc810ba93296295 # timeout=10
+Commit message: "Отчеты"
+ > C:\Program Files\Git\bin\git.exe rev-list --no-walk 4c4fdf77e757f122a81d4181cbc810ba93296295 # timeout=10
+[addressbook bdd test] $ cmd /c call C:\Users\User\AppData\Local\Temp\jenkins4370543949845828594.bat
+
+C:\Users\User\.jenkins\workspace\addressbook bdd test>call C:\training\python_training\env\Scripts\activate 
+
+(env) C:\Users\User\.jenkins\workspace\addressbook bdd test>py.test --cucumberjson=result.json --junitxml=result.xml bdd\contact_scenarios.py bdd\group_scenarios.py 
+============================= test session starts =============================
+platform win32 -- Python 3.13.0, pytest-8.3.3, pluggy-1.5.0
+rootdir: C:\Users\User\.jenkins\workspace\addressbook bdd test
+plugins: bdd-8.0.0
+collected 6 items
+
+bdd\contact_scenarios.py ....                                            [ 66%]
+bdd\group_scenarios.py ..                                                [100%]
+
+- generated json file: C:\Users\User\.jenkins\workspace\addressbook bdd test\result.json -
+- generated xml file: C:\Users\User\.jenkins\workspace\addressbook bdd test\result.xml -
+============================= 6 passed in 17.39s ==============================
+
+(env) C:\Users\User\.jenkins\workspace\addressbook bdd test>exit 0 
+[CucumberReport] Using Cucumber Reports version 5.8.5
+[CucumberReport] JSON report directory is ""
+[CucumberReport] Copied 0 properties files from workspace "C:\Users\User\.jenkins\workspace\addressbook bdd test" to reports directory "C:\Users\User\.jenkins\jobs\addressbook bdd test\builds\9\cucumber-html-reports_74548219-394e-396a-90c0-eb61554a4cfa\.cache"
+[CucumberReport] Copied 1 files from workspace "C:\Users\User\.jenkins\workspace\addressbook bdd test" to reports directory "C:\Users\User\.jenkins\jobs\addressbook bdd test\builds\9\cucumber-html-reports_74548219-394e-396a-90c0-eb61554a4cfa\.cache"
+[CucumberReport] Processing 1 json files:
+[CucumberReport] C:\Users\User\.jenkins\jobs\addressbook bdd test\builds\9\cucumber-html-reports_74548219-394e-396a-90c0-eb61554a4cfa\.cache\result.json
+[Cucumber Tests] Parsing results.
+[Cucumber Tests] parsing result.json
+Recording test results
+[Checks API] No suitable checks publisher found.
+Finished: SUCCESS
